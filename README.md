@@ -2,6 +2,7 @@
 Install windows 11 using termux in android
 
 # Requirements 
+- Rootless
 - Arm64 only
 - 4GB RAM
 - 20GB internal storage
@@ -25,3 +26,8 @@ cd $HOME/
 chmod +x ./Win11
 ./Win11
 ```
+
+# Documentation
+Visit: [https://github.com/Android-PowerUser/Windroid_11](https://github.com/Android-PowerUser/Windroid_11)
+
+Credits => [Android-PowerUser](https://github.com/Android-PowerUser/Windroid_11)
