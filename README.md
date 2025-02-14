@@ -1,5 +1,7 @@
 # termux-windows-11
 Install windows 11 using termux in android
+<img width="90%" height="30%" src="https://github.com/xiv3r/termux-windows-11/blob/main/src/landscape.jpg">
+<img height="90%" width="30%" src="https://github.com/xiv3r/termux-windows-11/blob/main/src/portrait.jpg">
 
 # Requirements 
 - Rootless
