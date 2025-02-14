@@ -12,19 +12,21 @@ Install windows 11 using termux in android
 
 # Installation 
 ```
-termux-setup-storage && pkg update && pkg upgrade -y && pkg install proot p7zip pulseaudio wget -y
+termux-setup-storage && pkg update && pkg upgrade -y && pkg install axel proot p7zip pulseaudio -y
 ```
 ```
-cd storage/downloads
+axel -a -n 1 https://github.com/Android-PowerUser/Windroid_11/releases/download/2023.07.29/Win11.7z.001
+axel -a -n 1 https://github.com/Android-PowerUser/Windroid_11/releases/download/2023.07.29/Win11.7z.002
+axel -a -n 1 https://github.com/Android-PowerUser/Windroid_11/releases/download/2023.07.29/Win11.7z.003
 ```
 ```
-wget https://github.com/Android-PowerUser/Windroid_11/releases/download/2023.07.29/Win11.7z.001 https://github.com/Android-PowerUser/Windroid_11/releases/download/2023.07.29/Win11.7z.002 https://github.com/Android-PowerUser/Windroid_11/releases/download/2023.07.29/Win11.7z.003
+7z x Win11.7z.001 -o$HOME/
+chmod +x Win11
+cp Win11 $PREFIX/bin/win11
+chmod +x $PREFIX/bin/win11
 ```
 ```
-7z x ./Win11.7z.001 -o$HOME/
-cd $HOME/
-chmod +x ./Win11
-./Win11
+bash Win11 or win11
 ```
 
 # Documentation
