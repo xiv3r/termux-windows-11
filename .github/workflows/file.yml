@@ -1,10 +1,10 @@
 name: update
 
 on:
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:
   release:
-    types: [published]  # Trigger when a new release is published
-
+    types: [published]  
+    
 jobs:
   download-and-release:
     runs-on: ubuntu-latest
@@ -13,23 +13,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0  # Fetch all history for tags
+        fetch-depth: 0
 
     - name: Download files
       run: |
         mkdir -p downloads
-        
-        # Download files with proper filenames
-        echo "Downloading files..."
-        curl -L -f -o "downloads/Win11.7z.001" "https://github.com/Android-PowerUser/Windroid_11/releases/download/2023.07.29/Win11.7z.001"
-        curl -L -f -o "downloads/Win11.7z.002" "https://github.com/Android-PowerUser/Windroid_11/releases/download/2023.07.29/Win11.7z.002"
-        curl -L -f -o "downloads/Win11.7z.003" "https://github.com/Android-PowerUser/Windroid_11/releases/download/2023.07.29/Win11.7z.003"
-        
-        # List downloaded files to verify
-        echo "Downloaded files:"
-        ls -la downloads/
-        echo "File sizes:"
-        du -h downloads/*
+        cd downloads
+        wget https://github.com/Android-PowerUser/Windroid_11/releases/download/2023.07.29/Win11.7z.001"
+        wget https://github.com/Android-PowerUser/Windroid_11/releases/download/2023.07.29/Win11.7z.002"
+        wget https://github.com/Android-PowerUser/Windroid_11/releases/download/2023.07.29/Win11.7z.003"
 
     - name: Create and push tag
       id: tag_version
@@ -38,11 +30,9 @@ jobs:
         if [ "${{ github.event_name }}" == "release" ]; then
           VERSION="${{ github.event.release.tag_name }}"
         else
-          # For manual triggers, generate a timestamp-based version
           VERSION="windows-11"
         fi
         
-        # Create annotated tag
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git tag -a "$VERSION" -m "Release $VERSION"
