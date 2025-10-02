@@ -26,7 +26,6 @@ jobs:
     - name: Create and push tag
       id: tag_version
       run: |
-        # Get the release version from the GitHub context
         if [ "${{ github.event_name }}" == "release" ]; then
           VERSION="${{ github.event.release.tag_name }}"
         else
