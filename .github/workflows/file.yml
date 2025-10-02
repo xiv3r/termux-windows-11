@@ -1,0 +1,60 @@
+name: update
+
+on:
+  workflow_dispatch:  # Manual trigger
+  release:
+    types: [published]  # Trigger when a new release is published
+
+jobs:
+  download-and-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Fetch all history for tags
+
+    - name: Download files
+      run: |
+        mkdir -p downloads
+        
+        # Download files with proper filenames
+        echo "Downloading files..."
+        curl -L -f -o "downloads/Win11.7z.001" "https://github.com/Android-PowerUser/Windroid_11/releases/download/2023.07.29/Win11.7z.001"
+        curl -L -f -o "downloads/Win11.7z.002" "https://github.com/Android-PowerUser/Windroid_11/releases/download/2023.07.29/Win11.7z.002"
+        curl -L -f -o "downloads/Win11.7z.003" "https://github.com/Android-PowerUser/Windroid_11/releases/download/2023.07.29/Win11.7z.003"
+        
+        # List downloaded files to verify
+        echo "Downloaded files:"
+        ls -la downloads/
+        echo "File sizes:"
+        du -h downloads/*
+
+    - name: Create and push tag
+      id: tag_version
+      run: |
+        # Get the release version from the GitHub context
+        if [ "${{ github.event_name }}" == "release" ]; then
+          VERSION="${{ github.event.release.tag_name }}"
+        else
+          # For manual triggers, generate a timestamp-based version
+          VERSION="windows-11"
+        fi
+        
+        # Create annotated tag
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git tag -a "$VERSION" -m "Release $VERSION"
+        git push origin "$VERSION"
+        
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+    - name: Upload files to release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ steps.tag_version.outputs.version }}
+        files: |
+          downloads/*.*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
